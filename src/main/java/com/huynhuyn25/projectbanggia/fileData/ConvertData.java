@@ -8,24 +8,24 @@ import quickfix.field.MessageFactory;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class ConvertData {
-    public List<JsonObject> ConvertStO(File file) throws IOException, ConfigError, InvalidMessage, FieldNotFound {
+    public void ConvertStO(File file) throws IOException, ConfigError, InvalidMessage, FieldNotFound {
         DataDictionary dictionary = new DataDictionary("src/main/resources/CustomFIX.xml");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         int count = 0;
         Gson gson = new Gson();
         String line;
-        List<JsonObject> listJsonData = new ArrayList<>();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/dataTP.txt"));
+//        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/dataTP.txt"));
         while ((line = reader.readLine()) != null) {
             count++;
 //            quickfix.MessageFactory messageFactory = new DefaultMessageFactory(ApplVerID.FIX44);
 //            quickfix.Message messageFromMessageUtils = quickfix.MessageUtils.parse(messageFactory, null, line);
             Message messageFromMessageUtils = (Message) MessageUtils.parse(new MessageFactory(), dictionary, line, false);
-
+            List<JsonObject> listJsonData = new ArrayList<>();
             JsonObject jsonObject = new JsonObject();
             String msgType = ((Message.Header) messageFromMessageUtils.getHeader()).getMsgType().getValue();
 //            System.out.println(((Message.Header) messageFromMessageUtils.getHeader()).getSendingTime());
@@ -53,14 +53,8 @@ public class ConvertData {
                 }
             }
 
-//            if(msgType.equals("TP"))  {
-//                writer.write(gson.toJson(listJsonData));
-//                writer.newLine();
-////                System.out.println(count);
-//            }
-
 
         }
-        return listJsonData;
+
     }
 }

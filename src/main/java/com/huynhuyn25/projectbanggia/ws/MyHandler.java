@@ -20,15 +20,16 @@ import java.util.ArrayList;
 
 @Slf4j
 public class MyHandler extends TextWebSocketHandler {
-    List<JsonObject> test = new ArrayList<>();
+    List<List<JsonObject>> test = new ArrayList<>();
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException, InterruptedException, ConfigError, InvalidMessage, FieldNotFound {
         log.info(message.toString());
         ConvertData convertData = new ConvertData();
-        test = convertData.ConvertStO(new File("src/main/resources/infogateclient.20200529.dat"));
+        convertData.ConvertStO(new File("src/main/resources/infogateclient.20200529.dat"));
         int k =0;
         while(k < test.size()){
+
             session.sendMessage(new TextMessage(test.get(k).toString()));
             k++;
             Thread.sleep((long) (Math.random()*10000));
