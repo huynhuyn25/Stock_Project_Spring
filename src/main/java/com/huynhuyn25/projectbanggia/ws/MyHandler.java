@@ -36,7 +36,7 @@ public class MyHandler extends TextWebSocketHandler {
             String messageFromData = convertData.ConvertStO(line);
             if(messageFromData!= null) {
                 session.sendMessage(new TextMessage(messageFromData));
-                Thread.sleep((long) (Math.random() * 10000));
+//                Thread.sleep((long) (Math.random() * 10000));
             }
         }
 

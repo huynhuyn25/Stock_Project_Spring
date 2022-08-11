@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ConvertData {
-    ArrayList<StockInfo> listStockInfo = new ArrayList<>();
+    static ArrayList<StockInfo> listStockInfo = new ArrayList<>();
     public String ConvertStO(String line) throws IOException, ConfigError, InvalidMessage, FieldNotFound {
         DataDictionary dictionary = new DataDictionary("src/main/resources/CustomFIX.xml");
         Message messageFromMessageUtils = (Message) MessageUtils.parse(new MessageFactory(), dictionary, line, false);
@@ -45,7 +45,7 @@ public class ConvertData {
             }
         String messageSend;
         if(msgType.equals("SI")) messageSend = convertSI(listJsonData);
-        else if(msgType.equals("TP")) messageSend = convertTP(listJsonData);
+//        else if(msgType.equals("TP")) messageSend = convertTP(listJsonData);
         else return null;
 
         return messageSend;
@@ -54,16 +54,34 @@ public class ConvertData {
 
     private String convertTP(List<JsonObject> listJsonData) {
         Gson gson = new Gson();
+        StockInfo si = new StockInfo();
         JsonObject jsonObject = listJsonData.get(0);
+//        System.out.println(listStockInfo.size());
         if(listStockInfo.size()!=0){
             String symbol = subString(gson.toJson(jsonObject.get("Symbol")));
+//            System.out.println(symbol);
+            int noTopPrice = Integer.parseInt(subString(gson.toJson(jsonObject.get("NoTopPrice"))));
             for (StockInfo stockInfo:listStockInfo){
                 if(symbol.equals(stockInfo.getSymbol())){
-
-                }
+                    ArrayList<TopPrice> listTopPrice = new ArrayList<>();
+                    int k = 1;
+                    while(k<=3&&noTopPrice!=0){
+                        JsonObject jsonObject1 = listJsonData.get(k);
+                        TopPrice topOfferPrice = new TopPrice(subString(gson.toJson(jsonObject1.get("NumTopPrice"))),"Offer",subString(gson.toJson(jsonObject1.get("BestOfferPrice"))),subString(gson.toJson(jsonObject1.get("BestOfferQtty"))));
+                        TopPrice topBidPrice = new TopPrice(subString(gson.toJson(jsonObject1.get("NumTopPrice"))),"Bid",subString(gson.toJson(jsonObject1.get("BestBidPrice"))),subString(gson.toJson(jsonObject1.get("BestBidQtty"))));
+                        listTopPrice.add(topOfferPrice);
+                        listTopPrice.add(topBidPrice);
+                        System.out.println(topBidPrice);
+                        System.out.println(topOfferPrice);
+                        k++;
+                        noTopPrice--;
+                    }
+                    stockInfo.setListTP(listTopPrice);
+                    si = stockInfo;
+                } else return null;
             }
         }
-        return gson.toJson(listJsonData);
+        return gson.toJson(si);
     }
 
     private String convertSI(List<JsonObject> listJsonData) {
