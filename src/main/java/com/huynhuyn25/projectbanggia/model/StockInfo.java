@@ -59,4 +59,15 @@ public class StockInfo {
     public void setListTP(List<TopPrice> listTP) {
         this.listTP = listTP;
     }
+
+    @Override
+    public String toString() {
+        return "StockInfo{" +
+                "symbol='" + symbol + '\'' +
+                ", thamChieu='" + thamChieu + '\'' +
+                ", giaTran='" + giaTran + '\'' +
+                ", giaSan='" + giaSan + '\'' +
+                ", listTP=" + listTP +
+                '}';
+    }
 }
