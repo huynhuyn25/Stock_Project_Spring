@@ -8,13 +8,16 @@ public class StockInfo {
     private String thamChieu;
     private String giaTran;
     private String giaSan;
+    private String status;
     private List<TopPrice> listTP = new ArrayList<>();
 
-    public StockInfo(String symbol, String thamChieu, String giaTran, String giaSan) {
+    public StockInfo(String symbol, String thamChieu, String giaTran, String giaSan, String status) {
         this.symbol = symbol;
         this.thamChieu = thamChieu;
         this.giaTran = giaTran;
         this.giaSan = giaSan;
+        this.status = status;
+
     }
 
     public StockInfo() {
@@ -52,6 +55,14 @@ public class StockInfo {
         this.giaSan = giaSan;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<TopPrice> getListTP() {
         return listTP;
     }
@@ -67,6 +78,7 @@ public class StockInfo {
                 ", thamChieu='" + thamChieu + '\'' +
                 ", giaTran='" + giaTran + '\'' +
                 ", giaSan='" + giaSan + '\'' +
+                ", status='" + status + '\'' +
                 ", listTP=" + listTP +
                 '}';
     }

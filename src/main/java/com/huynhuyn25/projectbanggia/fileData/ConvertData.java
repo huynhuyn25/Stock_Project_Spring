@@ -75,6 +75,7 @@ public class ConvertData {
                 noTopPrice--;
             }
             stockInfo.setListTP(listTopPrice);
+            stockInfo.setStatus("update");
             si = stockInfo;
             return gson.toJson(si);
         }
@@ -91,7 +92,8 @@ public class ConvertData {
             StockInfo stockInfo = new StockInfo(subString(gson.toJson(jsonObject.get("Symbol"))),
                     subString(gson.toJson(jsonObject.get("BasicPrice"))),
                     subString(gson.toJson(jsonObject.get("CeilingPrice"))),
-                    subString(gson.toJson(jsonObject.get("FloorPrice"))));
+                    subString(gson.toJson(jsonObject.get("FloorPrice"))),
+                    "create");
             hashMapStock.put(subString(gson.toJson(jsonObject.get("Symbol"))),stockInfo);
 //            System.out.println(hashMapStock.get(subString(gson.toJson(jsonObject.get("Symbol")))));
             return gson.toJson(stockInfo);
