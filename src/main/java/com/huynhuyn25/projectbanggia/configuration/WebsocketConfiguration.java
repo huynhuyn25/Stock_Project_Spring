@@ -18,6 +18,7 @@ public class WebsocketConfiguration implements WebSocketConfigurer {
         registry.addHandler(new MyHandler(), "/topPrice")
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
                 .setAllowedOriginPatterns("*");
+//                .withSockJS();
     }
     @Bean
     public WebSocketHandler myHandler() {

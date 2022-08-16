@@ -1,8 +1,11 @@
 package com.huynhuyn25.projectbanggia.ws;
 
 import com.google.gson.JsonObject;
+import com.huynhuyn25.projectbanggia.event.MessageEvent;
 import com.huynhuyn25.projectbanggia.fileData.ConvertData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -27,7 +30,7 @@ public class MyHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException, InterruptedException, ConfigError, InvalidMessage, FieldNotFound {
-        log.info(message.toString());
+//        log.info(message.toString());
 
         BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/infogateclient.20200529.dat"));
         String line;
