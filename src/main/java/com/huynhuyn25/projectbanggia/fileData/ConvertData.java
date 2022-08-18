@@ -2,10 +2,12 @@ package com.huynhuyn25.projectbanggia.fileData;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.huynhuyn25.projectbanggia.event.MessageEvent;
+//import com.huynhuyn25.projectbanggia.event.EventPublisher;
+//import com.huynhuyn25.projectbanggia.event.MessageEvent;
 import com.huynhuyn25.projectbanggia.model.StockInfo;
 import com.huynhuyn25.projectbanggia.model.TopPrice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import quickfix.*;
 import quickfix.field.Message;
@@ -17,9 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 @Component
-public class ConvertData {
-//    @Autowired
-//    MessageEvent messageEvent;
+public class ConvertData  {
+
+//    EventPublisher eventPublisher = new EventPublisher();
     private String message;
     private static HashMap<String,StockInfo> hashMapStock = new HashMap<>();
     private List<String> list = new ArrayList<>();
@@ -108,6 +110,7 @@ public class ConvertData {
             si = stockInfo;
             Thread.sleep((long) (Math.random() * 1000));
             message = gson.toJson(si);
+//            eventPublisher.publishEvent(message);
             return message;
         }
         return null;
@@ -129,6 +132,7 @@ public class ConvertData {
             hashMapStock.put(subString(gson.toJson(jsonObject.get("Symbol"))),stockInfo);
 //            System.out.println(hashMapStock.get(subString(gson.toJson(jsonObject.get("Symbol")))));
             message = gson.toJson(stockInfo);
+//            eventPublisher.publishEvent(message);
             return message;
         }
 
@@ -139,4 +143,6 @@ public class ConvertData {
     private String subString(String s){
         return s.substring(1,s.length()-1);
     }
+
+
 }

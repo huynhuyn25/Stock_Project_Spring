@@ -1,27 +1,28 @@
 package com.huynhuyn25.projectbanggia;
 
-import com.huynhuyn25.projectbanggia.fileData.ConvertData;
 import com.huynhuyn25.projectbanggia.fileData.ReadFile;
-import com.huynhuyn25.projectbanggia.ws.MyHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.socket.TextMessage;
-import quickfix.ConfigError;
-import quickfix.FieldNotFound;
-import quickfix.InvalidMessage;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 @SpringBootApplication
-public class ProjectBangGiaApplication {
+public class ProjectBangGiaApplication implements CommandLineRunner {
+
+    @Autowired
+    ReadFile readFile;
 
     public static void main(String[] args) throws FileNotFoundException {
         SpringApplication.run(ProjectBangGiaApplication.class, args);
-        ReadFile readFile = new ReadFile();
-        readFile.ReadFile();
     }
 
+    @Override
+    public void run(String... args) throws Exception {
+        readFile.readFileData();
+    }
 }

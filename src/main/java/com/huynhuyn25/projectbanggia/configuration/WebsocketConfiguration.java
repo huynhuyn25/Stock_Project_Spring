@@ -10,26 +10,38 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 @Configuration
-@EnableWebSocket
-public class WebsocketConfiguration implements WebSocketConfigurer {
+//@EnableWebSocket
+@EnableWebSocketMessageBroker
+public class WebsocketConfiguration  implements WebSocketMessageBrokerConfigurer {
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
+        stompEndpointRegistry.addEndpoint("/register")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
+    }
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new MyHandler(), "/topPrice")
-                .addInterceptors(new HttpSessionHandshakeInterceptor())
-                .setAllowedOriginPatterns("*");
-//                .withSockJS();
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app");
     }
-    @Bean
-    public WebSocketHandler myHandler() {
-        return new MyHandler();
-    }
-
-    @Bean
-    public ServletServerContainerFactoryBean createWebSocketContainer() {
-        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxTextMessageBufferSize(8192);
-        container.setMaxBinaryMessageBufferSize(8192);
-        return container;
-    }
+//    @Override
+//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+//        registry.addHandler(new MyHandler(), "/topPrice")
+//                .addInterceptors(new HttpSessionHandshakeInterceptor())
+//                .setAllowedOriginPatterns("*");
+////                .withSockJS();
+//    }
+//    @Bean
+//    public WebSocketHandler myHandler() {
+//        return new MyHandler();
+//    }
+//
+//    @Bean
+//    public ServletServerContainerFactoryBean createWebSocketContainer() {
+//        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+//        container.setMaxTextMessageBufferSize(8192);
+//        container.setMaxBinaryMessageBufferSize(8192);
+//        return container;
+//    }
 }
