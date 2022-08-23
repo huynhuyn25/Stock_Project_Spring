@@ -1,6 +1,8 @@
 package com.huynhuyn25.projectbanggia.fileData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import quickfix.ConfigError;
 import quickfix.FieldNotFound;
@@ -10,13 +12,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+
 
 @Service
 public class ReadFile   {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate ;
-
 
     public void readFileData() throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/infogateclient.20200529.dat"));
@@ -28,8 +31,7 @@ public class ReadFile   {
                 String message  = convertData.ConvertStO(line);
 
                 if(message!=null){
-                    System.out.println(message);
-                    simpMessagingTemplate.convertAndSend("/topic/topPrice",message);
+                    this.simpMessagingTemplate.convertAndSend("/topic/topPrice",message);
                 }
             } catch (ConfigError e) {
                 e.printStackTrace();

@@ -25,6 +25,13 @@ public class WebsocketConfiguration  implements WebSocketMessageBrokerConfigurer
         registry.enableSimpleBroker("/topic");
         registry.setApplicationDestinationPrefixes("/app");
     }
+    @Bean
+    public ServletServerContainerFactoryBean createWebSocketContainer() {
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+        container.setMaxTextMessageBufferSize(8192);
+        container.setMaxBinaryMessageBufferSize(8192);
+        return container;
+    }
 //    @Override
 //    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 //        registry.addHandler(new MyHandler(), "/topPrice")
