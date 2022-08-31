@@ -13,5 +13,6 @@ Luồng xử lý:
 - Xử lý thông tin chứa trong msg SI và TP
 - Gửi thông tin cho Client
 
-API: getAll data của các mã chứng khoán ở thời điểm load lại trang
-WebSocket: send data tới các Client subscribe Topic mỗi khi có sự thay đổi từ các msg
+Chức năng
+- API: getAll data của các mã chứng khoán ở thời điểm load lại trang
+- WebSocket: send data tới các Client subscribe Topic mỗi khi có sự thay đổi từ các msg
